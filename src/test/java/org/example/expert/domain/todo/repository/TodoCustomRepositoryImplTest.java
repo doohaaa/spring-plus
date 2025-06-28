@@ -33,7 +33,7 @@ class TodoCustomRepositoryImplTest {
         user = new User("hello@ecample.com", "password", UserRole.USER, "nickname");
         userRepository.save(user);
 
-        todo = new Todo("what to do", "spring-plus task", "sunny",user );
+        todo = new Todo("what to do", "spring-plus task", "sunny", user );
         todoRepository.save(todo);
     }
 
@@ -45,6 +45,6 @@ class TodoCustomRepositoryImplTest {
         // when
         Todo todo = todoRepository.findByIdWithUser(todoId).orElseThrow();
         // then
-        assertThat(todo).isNotNull();
+        assertThat(todo.getUser()).isEqualTo(user);
     }
 }

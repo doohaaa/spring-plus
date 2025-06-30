@@ -46,6 +46,9 @@ dependencies {
     // openfeign query-dsl
     implementation 'io.github.openfeign.querydsl:querydsl-jpa:6.11'
     annotationProcessor 'io.github.openfeign.querydsl:querydsl-apt:6.11:jpa'
+
+    // spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {

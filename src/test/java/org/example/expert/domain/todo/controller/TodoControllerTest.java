@@ -7,21 +7,26 @@ import org.example.expert.domain.todo.service.TodoService;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
+import static java.time.LocalDateTime.now;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(TodoController.class)
+@SpringBootTest
+
 class TodoControllerTest {
 
     @Autowired
@@ -44,8 +49,8 @@ class TodoControllerTest {
                 "contents",
                 "Sunny",
                 userResponse,
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                now(),
+                now()
         );
 
         // when
@@ -74,4 +79,24 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.message").value("Todo not found"));
     }
+
+//    @Test
+//    @DisplayName("여러 조건이 주어졌을때 todo 검색")
+//    void searchTodos() throws Exception {
+//        // given
+//        int page = 1;
+//        int size = 5;
+//        String title = "제목";
+//        LocalDateTime startAt = LocalDateTime.now().minusMinutes(5);
+//        LocalDateTime endAt =  LocalDateTime.now().minusMinutes(5);
+//        String nickname = "관리자";
+//
+//        // when
+//
+//
+//        // then
+//
+//
+//
+//    }
 }

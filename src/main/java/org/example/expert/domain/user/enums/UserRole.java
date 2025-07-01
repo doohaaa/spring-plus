@@ -8,9 +8,10 @@ public enum UserRole {
     ADMIN, USER;
 
     public static UserRole of(String role) {
+        System.out.println("userRole.of 호출");
         return Arrays.stream(UserRole.values())
                 .filter(r -> r.name().equalsIgnoreCase(role))
                 .findFirst()
-                .orElseThrow(() -> new InvalidRequestException("유효하지 않은 UerRole"));
+                .orElseThrow(() -> new InvalidRequestException("유효하지 않은 UserRole"));
     }
 }

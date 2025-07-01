@@ -28,7 +28,7 @@ public class TodoController {
         return ResponseEntity.ok(todoService.saveTodo(authUser, todoSaveRequest));
     }
 
-    @GetMapping("/todos?weather={weather}&startAt={startAt}&endAt={endAt}")
+    @GetMapping("/todos")
     public ResponseEntity<Page<TodoResponse>> getTodos(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -44,7 +44,7 @@ public class TodoController {
     }
 
     // 일정 검색 기능 추가
-    @GetMapping("todos?title={title}&startAt={startAt}&endAt={endAt}&nickname={nickname}")
+    @GetMapping("/todos")
     public ResponseEntity<Page<TodoSearchResponse>> searchTodos(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,

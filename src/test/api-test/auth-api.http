@@ -1,0 +1,44 @@
+### 회원 가입 API
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "email": "hong-gd@gmail.com",
+  "password": "Password1!",
+  "nickname": "동에번쩍 서에번쩍",
+  "userRole": "USER"
+}
+
+### 로그인 API
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+  "email": "hong-gd@gmail.com",
+  "password": "Password1!"
+}
+
+> {%
+    client.global.set("access_token", response.body.bearerToken)
+    client.log("test: " + client.global.get("access_token"))
+%}
+
+### TODO 생성 API
+POST http://localhost:8080/todos
+Authorization: {{access_token}}
+Content-Type: application/json
+
+{
+  "userId": "hong-gd",
+  "email": "hong-gd@gmail.com",
+  "userRole": "USER",
+  "title": "todo title",
+  "contents": "todo contents"
+}
+
+
+### TODO 조회 API
+GET http://localhost:8080/todos/1
+Authorization: {{access_token}}
+Content-Type: application/json
+

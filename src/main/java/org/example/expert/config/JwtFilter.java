@@ -4,33 +4,39 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.user.enums.UserRole;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
-@Component
 @Slf4j
 @RequiredArgsConstructor
-public class JwtFilter implements Filter {
+@Component
+// Spring Security Config의 FilterChaining에 등록하기 위해 기존 Filter -> OncePerRequestFilter로 변경
+public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+    public void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain
+    ) throws IOException, ServletException {
+        HttpServletRequest httpRequest = request;
+        HttpServletResponse httpResponse = response;
 
         String url = httpRequest.getRequestURI();
 
@@ -57,23 +63,20 @@ public class JwtFilter implements Filter {
                 return;
             }
 
+            // 사용자 정보 추출
+            Long userId = Long.valueOf(claims.getSubject());
+            String email = claims.get("email").toString();
             UserRole userRole = UserRole.valueOf(claims.get("userRole", String.class));
 
-            httpRequest.setAttribute("userId", Long.parseLong(claims.getSubject()));
-            httpRequest.setAttribute("email", claims.get("email"));
-            httpRequest.setAttribute("userRole", claims.get("userRole"));
-            httpRequest.setAttribute("nickname", claims.get("nickname"));
+            AuthUser authUser = new AuthUser(userId, email, userRole);
 
-            if (url.startsWith("/admin")) {
-                // 관리자 권한이 없는 경우 403을 반환합니다.
-                if (!UserRole.ADMIN.equals(userRole)) {
-                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "관리자 권한이 없습니다.");
-                    return;
-                }
-                chain.doFilter(request, response);
-                return;
-            }
+            // SecurityContext 에 인증 등록
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    authUser, null, List.of(new SimpleGrantedAuthority(userRole.name())));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
+//
+            // 다음 필터로 넘기기
             chain.doFilter(request, response);
         } catch (SecurityException | MalformedJwtException e) {
             log.error("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.", e);
@@ -88,10 +91,5 @@ public class JwtFilter implements Filter {
             log.error("Internal server error", e);
             httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @Override
-    public void destroy() {
-        Filter.super.destroy();
     }
 }

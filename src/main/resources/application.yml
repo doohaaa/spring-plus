@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate.ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -16,3 +16,13 @@ spring:
 jwt:
   secret:
     key: ${SECRETKEY}
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE

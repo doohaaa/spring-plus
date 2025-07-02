@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class TodoSearchResponse {
 
+    Long todoId;
     String title;
     Long countManager;
     Long countComment;

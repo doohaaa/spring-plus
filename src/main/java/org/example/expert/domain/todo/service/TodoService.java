@@ -13,14 +13,12 @@ import org.example.expert.domain.todo.repository.TodoCustomRepositoryImpl;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -89,12 +87,13 @@ public class TodoService {
     }
 
     // 일정 검색 기능 추가
-    public Page<TodoSearchResponse> searchTodos(int page, int size, String title, LocalDateTime startAt, LocalDateTime endAt, String nickname){
+    public Page<TodoSearchResponse> searchTodos(int page, int size, String title, LocalDateTime startAt, LocalDateTime endAt, String nickname) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<TodoSearchResponse> todos = todoRepository.findByTitleStartAtNickname(title, startAt, endAt, nickname, pageable);
 
         return todos.map(todo -> new TodoSearchResponse(
+                todo.getTodoId(),
                 todo.getTitle(),
                 todo.getCountManager(),
                 todo.getCountComment()

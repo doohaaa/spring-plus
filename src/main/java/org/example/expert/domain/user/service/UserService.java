@@ -3,12 +3,17 @@ package org.example.expert.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
+import org.example.expert.domain.user.dto.request.UserNickNameRequest;
+import org.example.expert.domain.user.dto.response.UserNickNameResponse;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -49,4 +54,24 @@ public class UserService {
             throw new InvalidRequestException("새 비밀번호는 8자 이상이어야 하고, 숫자와 대문자를 포함해야 합니다.");
         }
     }
+
+    // nickname 으로 유저 가져오기
+    public List<UserNickNameResponse> getUserByNickName(UserNickNameRequest nickname) {
+        List<User> userList = userRepository.findbyNickname(nickname.getNickname());
+        if (userList.isEmpty()) {
+            throw new InvalidRequestException("해당하는 유저가 없습니다");
+        }
+
+        List<UserNickNameResponse> dtoList = new ArrayList<>();
+
+        for (User user : userList) {
+            UserNickNameResponse dto = new UserNickNameResponse(
+                    user.getId(),
+                    user.getNickname()
+            );
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
+
 }

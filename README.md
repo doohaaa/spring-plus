@@ -6,6 +6,8 @@
 
 > **개발기간 : 2025-06-23 ~ 2025-07-04**
 
+<br>
+
 ## ✨ 활용한 주요 개념
 
 - JPA, JPQL, QueryDSL - 데이터베이스에 접근하는 다양한 방법에 대해 공부
@@ -15,6 +17,8 @@
 - Spring Security - JWT 토큰 기반의 프로그램에 Spring Security 를 도입
 - 대용량 데이터 처리 - 테스트 코드로 대용량 데이터 주입해보기
 
+<br>
+
 ## ✨운영 환경 변수
 
 ```
@@ -23,6 +27,8 @@ DB_USERNAME=yourusername
 DB_PASSWORD=youruserpassword
 SECRET_KEY=your_jwt_secret_key
 ```
+
+<br>
 
 ## 🪄 배운점
 
@@ -46,12 +52,15 @@ SECRET_KEY=your_jwt_secret_key
 
 # 💫 Code Improvement, Performance optimisation Personal Project
 
+<br>
 ## 🎀 Introduction
 
 A personal project focused on analysing existing code, fixing bugs, exploring improvement strategies, and optimising
 performance.
 
 > **Development Period : 23.06.25 ~ 04.07.25**
+
+<br>
 
 ## ✨ Technologies & Concepts Used
 
@@ -68,6 +77,8 @@ performance.
 - DTO (Data Transfer Object) - For clean request and response data management.
 - RESTful API Design - Using @RestController, @RequestMapping, etc.
 
+<br>
+
 ## ✨ Code Improvements & Optimisation Techniques
 
 - 🛠️ AOP Advice Adjusted to Meet Requirements
@@ -81,6 +92,8 @@ performance.
     - Ensured that request logs are always saved regardless of the outcome of the main transaction by separating logging
       into an **independent transaction** using @Transactional(propagation = REQUIRES_NEW) and AOP.
 
+<br>
+  
 ## ✨Environment variables
 
 ```
@@ -89,6 +102,8 @@ DB_USERNAME=yourusername
 DB_PASSWORD=youruserpassword
 SECRET_KEY=your_jwt_secret_key
 ```
+
+<br>
 
 ## ✨ Learning
 

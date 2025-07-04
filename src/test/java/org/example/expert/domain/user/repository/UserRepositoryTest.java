@@ -44,13 +44,15 @@ class UserRepositoryTest {
         String nickname = "kevin";
 
         // userRepository 에 100만건 데이터 생성
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 1000000; i++) {
             userRepository.save(new User("email" + i + "@test.com", "Password" + i + "!", UserRole.USER,
                     UUID.randomUUID().toString().replace("~", "").substring(0, 5)));
         }
 
         userRepository.save(new User("email11000000@test.com", "Password1!", UserRole.USER, nickname));
         userRepository.save(new User("email12000000@test.com", "Password2!", UserRole.USER, nickname));
+        userRepository.save(new User("email13000000@test.com", "Password3!", UserRole.USER, nickname));
+        userRepository.save(new User("email14000000@test.com", "Password4!", UserRole.USER, nickname));
 
     }
 
@@ -68,8 +70,9 @@ class UserRepositoryTest {
         assertThat(users.get(0).getNickname()).isEqualTo(nickname);
         long afterTime = System.currentTimeMillis();
         long diff = afterTime - beforeTime;
+
         System.out.println("-------------------------\n" +
-                "실행 시간: " + diff + "\n");
+                "100만건 로그 O, test 메서드 실행 시간: " + diff + " ms \n");
 
     }
 }

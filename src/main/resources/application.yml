@@ -10,23 +10,19 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        format_sql: false
-        highlight_sql: false
+        format_sql: true
+        highlight_sql: true
 
 jwt:
   secret:
     key: ${SECRETKEY}
 
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        SQL: OFF
-#        type:
-#          descriptor:
-#            sql:
-#              BasicBinder: OFF
 logging:
   level:
-    org.hibernate.SQL: WARN
-    org.hibernate.type.descriptor.sql: WARN
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: debug

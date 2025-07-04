@@ -53,6 +53,7 @@ SECRET_KEY=your_jwt_secret_key
 # 💫 Code Improvement, Performance optimisation Personal Project
 
 <br>
+
 ## 🎀 Introduction
 
 A personal project focused on analysing existing code, fixing bugs, exploring improvement strategies, and optimising
@@ -93,7 +94,7 @@ performance.
       into an **independent transaction** using @Transactional(propagation = REQUIRES_NEW) and AOP.
 
 <br>
-  
+
 ## ✨Environment variables
 
 ```

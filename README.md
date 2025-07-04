@@ -38,9 +38,11 @@ SECRET_KEY=your_jwt_secret_key
     - SQL 문으로 시작을 안하고 바로 QueryDSL 로 작성했더니 쿼리에 문제가 있는건지 프로그램 다른 코드에 문제가 있는건지 찾기 어려움 -> 먼저 SQL 문을 작성해서 동작을 확인하고 변환 하는
       방향으로 구현
 
+<br><br>
 <hr>
+<br><br><br>
 
-### [ English version ]
+#### _English version_
 
 # 💫 Code Improvement, Performance optimisation Personal Project
 
